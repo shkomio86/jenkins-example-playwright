@@ -5,6 +5,9 @@ pipeline {
       label 'kube'
     }
   }
+  options {
+    ansiColor('xterm')
+  }
   stages {
     stage('check versions') {
       steps {
