@@ -1,8 +1,19 @@
 pipeline {
-  agent { 
+  agent {
     label 'kube'
+    docker { 
+      image 'mcr.microsoft.com/playwright:v1.17.2-focal'
+    }
   }
   stages {
+    stage('install playwright') {
+      steps {
+        sh '''
+          node --version || true
+          npm --version || true
+        '''
+      }
+    }
     stage('install playwright') {
       steps {
         sh '''
