@@ -5,9 +5,6 @@ pipeline {
       label 'kube'
     }
   }
-  options {
-    ansiColor('xterm')
-  }
   stages {
     stage('check versions') {
       steps {
@@ -23,6 +20,11 @@ pipeline {
           npm i -D @playwright/test
           npx playwright install
         '''
+      }
+    }
+    stage('Setup') {
+      steps {
+          sh 'sudo npx playwright install-deps'
       }
     }
     stage('test') {
