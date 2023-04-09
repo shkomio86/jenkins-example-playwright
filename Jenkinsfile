@@ -27,7 +27,7 @@ pipeline {
     stage('test1') {
       steps {
         script {
-          def shardCount = 4
+          def shardCount = 1
           def parallelStages = [:]
           for (int i = 1; i <= shardCount; i++) {
             def shard = "${i}/${shardCount}"
@@ -35,7 +35,7 @@ pipeline {
               node {
                 label 'kube'
                 // Pokreće se test za trenutni shard
-                sh "npx playwright test --workers 1 --shard ${shard} --headed --headed-timeout 300000 --timeout 300000 --repeat-each 2 --project-root . --video artifacts/videos/shard${shard} --output artifacts/json/shard${shard} --reporter junit --reporter json"
+                sh "npx playwright test --workers 1"
               }
             }
           }
