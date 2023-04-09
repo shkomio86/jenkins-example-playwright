@@ -30,7 +30,7 @@ pipeline {
       }
     }
     stage('test') {
-      parallel(
+      parallel {
         "node1": {
             node('node1') {
                 sh 'npx playwright test --shard 1/2 --shard-count 2'
@@ -41,7 +41,7 @@ pipeline {
                 sh 'npx playwright test --shard 2/2 --shard-count 2'
             }
         }
-      )
+      }
     }
   }
 }
