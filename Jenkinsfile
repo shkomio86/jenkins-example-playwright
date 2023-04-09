@@ -22,14 +22,15 @@ pipeline {
         '''
       }
     }
-    stage('test') {
+    stage('test1') {
       steps {
         sh '''
           npx playwright test
+          echo 11111111111
         '''
       }
     }
-    stage('test') {
+    stage('test2') {
       parallel {
         stage('Test shard 1') {
             steps {
