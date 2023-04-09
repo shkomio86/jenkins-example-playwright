@@ -2,10 +2,10 @@ def numAgents = 2
 def numExecutorsPerAgent = 1
 def numInstances = numAgents * numExecutorsPerAgent
 def labelPrefix = 'kube'
-echo $numAgents
-echo $numExecutorsPerAgent
-echo $numInstances
-echo $labelPrefix
+echo numAgents
+echo numExecutorsPerAgent
+echo numInstances
+echo labelPrefix
 pipeline {
   agent any
   stages {
