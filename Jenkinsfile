@@ -6,9 +6,9 @@ def labelPrefix = 'kube'
 pipeline {
   agent none
   stages {
+            stage('Run Playwright tests') {
       steps {
         script {
-            stage('Run Playwright tests') {
               parallel {
                 for (int i = 1; i < numAgents + 1; i++) {
                   def agentLabel = "${labelPrefix}${i}"
