@@ -47,20 +47,23 @@ pipeline {
           npx playwright test
         '''
       }
-    }
-    post {
-        always {
-          script {
-            def instanceIds = awsEc2DescribeInstances().reservations.findAll {
-              it.instances*.tags*.value.contains(JOB_NAME)
-            }*.instances*.instanceId
-            if (!instanceIds.empty) {
-              sh "aws ec2 terminate-instances --instance-ids ${instanceIds.join(' ')} --region ${AWS_REGION}"
-            } else {
-              echo "No '${JOB_NAME}' instances found to terminate."
+      post {
+          always {
+            script {
+              // Terminate all instances with label 'kube'
+              def label = "kube"
+              def instances = awsEC2.describeInstances().getReservations().collectMany {
+                it.getInstances()
+              }.findAll {
+                it.getLabels().contains(label)
+              }
+              instances.each {
+                println "Terminating instance: ${it.getInstanceId()}"
+                awsEC2.terminateInstances(new TerminateInstancesRequest().withInstanceIds(it.getInstanceId()))
+              }
             }
           }
         }
-   }
+    }
   }
 }
