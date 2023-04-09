@@ -44,7 +44,7 @@ pipeline {
     stage('Run Tests') {
         parallel {
             stage("miki") {
-                script {
+                steps {
                     for (int i = 1; i <= env.SHARD_COUNT.toInteger(); i++) {
                         def shard = "${i}/${env.SHARD_COUNT}"
                         stage("Shard ${shard}") {
