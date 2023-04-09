@@ -15,7 +15,10 @@ pipeline {
               def agentIndex = i
               stage("Agent ${agentIndex}") {
                 agent {
-                  label agentLabel
+                  docker {
+                    image 'mcr.microsoft.com/playwright:v1.32.0-focal'
+                    label agentLabel
+                  }
                 }
                 steps {
                   sh """
