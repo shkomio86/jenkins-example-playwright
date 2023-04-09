@@ -11,7 +11,6 @@ pipeline {
             echo numAgents
             echo numExecutorsPerAgent
             echo numInstances
-            echo labelPrefix
             def parallelStages = [:]
             for (int i = 1; i < numAgents + 1; i++) {
               def agentLabel = "${labelPrefix}${i}"
