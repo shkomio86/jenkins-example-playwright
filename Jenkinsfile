@@ -5,10 +5,8 @@ pipeline {
       steps {
         script {
           def shardCount = 2
-          parallelStages = [:]
           for (int i = 1; i <= shardCount; i++) {
             def shard = "${i}/${shardCount}"
-            parallelStages["Shard ${shard}"] = {
               agent {
                 docker {
                   image 'mcr.microsoft.com/playwright:v1.32.0-focal'
@@ -22,7 +20,6 @@ pipeline {
                   npx playwright test -- --workers=2 --headed --max-failures=1 --shard ${shard}
                 '''
               }
-            }
           }
           parallel parallelStages
         }
