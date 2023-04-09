@@ -1,8 +1,10 @@
-#!groovy
+import echosign.orchestration.*
+import echosign.wrapper.*
+import echosign.jenkins.*
 
 pipeline {
   agent {
-    docker { 
+    docker {
       image 'mcr.microsoft.com/playwright:v1.32.0-focal'
       label 'kube'
     }
@@ -34,8 +36,24 @@ pipeline {
     stage('Initialize') {
         steps {
             script {
-                def shardCount = 3
+                def shardCount = 4
                 env.SHARD_COUNT = shardCount.toString()
+            }
+        }
+    }
+    stage('Run Tests') {
+        parallel {
+            for (int i = 1; i <= env.SHARD_COUNT.toInteger(); i++) {
+                def shard = "${i}/${env.SHARD_COUNT}"
+                stage("Shard ${shard}") {
+                    agent {
+                        label "node${i}"
+                    }
+                    steps {
+                        sh "npm install"
+                        sh "npx playwright test -- --shard ${shard}"
+                    }
+                }
             }
         }
     }
