@@ -1,30 +1,26 @@
-import com.amazonaws.services.ec2.model.TerminateInstancesRequest
+def numAgents = 2
+def numExecutorsPerAgent = 4
+def numInstances = numAgents * numExecutorsPerAgent
+def labelPrefix = 'kube'
 
 pipeline {
-  agent any
-
+  agent none
   stages {
-    stage('run tests') {
-      steps {
-        script {
-          def shardCount = 4
-          def parallelStages = [:]
-          for (int i = 1; i <= shardCount; i++) {
-            def shard = "${i}/${shardCount}"
-            println shard
-            parallelStages["Shard ${shard}"] = {
-              node('kube') {
-                docker.image('mcr.microsoft.com/playwright:v1.32.0-focal').inside {
-                  sh '''
-                      npm i -D @playwright/test
-                      npx playwright install
-                      npx playwright test --shard=${shard}
-                  '''
-                }
-              }
+    stage('Run Playwright tests') {
+      parallel {
+        for (int i = 1; i < numAgents + 1; i++) {
+          def agentLabel = "${labelPrefix}${i}"
+          def agentIndex = i
+          stage("Agent ${agentIndex}") {
+            steps {
+              sh """
+                npx playwright test --shard --shard-count ${numInstances} --shard-index ${agentIndex} --workers ${numExecutorsPerAgent} --headed
+              """
+            }
+            agent {
+              label agentLabel
             }
           }
-          parallel parallelStages
         }
       }
     }
