@@ -1,5 +1,5 @@
 def numAgents = 2
-def numExecutorsPerAgent = 4
+def numExecutorsPerAgent = 1
 def numInstances = numAgents * numExecutorsPerAgent
 def labelPrefix = 'kube'
 
