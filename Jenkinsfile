@@ -34,12 +34,17 @@ pipeline {
       parallel {
         stage('Test shard 1') {
             steps {
-                sh 'npx playwright test --shard 1/2 --shard-count 2'
+                sh 'npx playwright test -- --shard 1/3'
             }
         }
         stage('Test shard 2') {
             steps {
-                sh 'npx playwright test --shard 2/2 --shard-count 2'
+                sh 'npx playwright test -- --shard 2/3'
+            }
+        }
+        stage('Test shard 3') {
+            steps {
+                sh 'npx playwright test -- --shard 3/3'
             }
         }
       }
