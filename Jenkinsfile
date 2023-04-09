@@ -17,7 +17,7 @@ pipeline {
                   sh '''
                       npm i -D @playwright/test
                       npx playwright install
-                      npx playwright test --workers=2 --headed --max-failures=1 --project=foo --shard ${shard}
+                      npx playwright test -- --workers=2 --shard ${shard}
                   '''
                 }
               }
