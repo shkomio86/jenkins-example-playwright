@@ -5,8 +5,6 @@ import echosign.jenkins.*
 pipeline {
   script {
       def shardCount = 4
-      env.SHARD_COUNT = shardCount.toString()
-      def shardCount = env.SHARD_COUNT.toInteger()
       def parallelStages = [:]
       for (int i = 1; i <= shardCount; i++) {
           def shard = "${i}/${shardCount}"
