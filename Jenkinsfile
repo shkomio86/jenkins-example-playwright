@@ -29,5 +29,19 @@ pipeline {
         '''
       }
     }
+    stage('test') {
+      parallel(
+        "node1": {
+            node('node1') {
+                sh 'npx playwright test --shard 1/2 --shard-count 2'
+            }
+        },
+        "node2": {
+            node('node2') {
+                sh 'npx playwright test --shard 2/2 --shard-count 2'
+            }
+        }
+      )
+    }
   }
 }
