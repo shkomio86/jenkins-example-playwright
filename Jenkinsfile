@@ -49,9 +49,13 @@ pipeline {
                     agent {
                         label "node${i}"
                     }
-                    steps {
-                        sh "npm install"
-                        sh "npx playwright test -- --shard ${shard}"
+                    stages {
+                        stage('Run Tests') {
+                            steps {
+                                sh "npm install"
+                                sh "npx playwright test -- --shard ${shard}"
+                            }
+                        }
                     }
                 }
             }
