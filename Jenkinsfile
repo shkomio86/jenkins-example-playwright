@@ -2,16 +2,16 @@ def numAgents = 2
 def numExecutorsPerAgent = 1
 def numInstances = numAgents * numExecutorsPerAgent
 def labelPrefix = 'kube'
-echo numAgents
-echo numExecutorsPerAgent
-echo numInstances
-echo labelPrefix
 pipeline {
   agent any
   stages {
     stage('Run Playwright tests') {
       steps {
         script {
+            echo numAgents
+            echo numExecutorsPerAgent
+            echo numInstances
+            echo labelPrefix
             def parallelStages = [:]
             for (int i = 1; i < numAgents + 1; i++) {
               def agentLabel = "${labelPrefix}${i}"
