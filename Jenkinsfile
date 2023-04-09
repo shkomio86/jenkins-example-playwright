@@ -8,10 +8,10 @@ pipeline {
     stage('Run Playwright tests') {
       steps {
         script {
-            echo numAgents
-          echo numExecutorsPerAgent
-          echo numExecutorsPerAgent
-          echo numExecutorsPerAgent
+            echo numAgents.toString()
+          echo numExecutorsPerAgent.toString()
+          echo numInstances.toString()
+          echo labelPrefix.toString()
             def parallelStages = [:]
             for (int i = 1; i < numAgents + 1; i++) {
               def agentLabel = "${labelPrefix}${i}"
@@ -22,7 +22,7 @@ pipeline {
                     sh '''
                         npm i -D @playwright/test
                         npx playwright install
-                        npx playwright test -- --shard=$agentIndex/$numInstances --workers ${numAgents}
+                        "npx playwright test -- --shard=${agentIndex}/${numInstances} --workers ${numAgents}"
                     '''
                   }
                 }
