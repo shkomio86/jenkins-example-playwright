@@ -8,9 +8,6 @@ pipeline {
     stage('Run Playwright tests') {
       steps {
         script {
-            echo numAgents
-            echo numExecutorsPerAgent
-            echo numInstances
             def parallelStages = [:]
             for (int i = 1; i < numAgents + 1; i++) {
               def agentLabel = "${labelPrefix}${i}"
