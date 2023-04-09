@@ -14,11 +14,14 @@ pipeline {
               def agentLabel = "${labelPrefix}${i}"
               def agentIndex = i
               stage("Agent ${agentIndex}") {
+                agent {
+                  label agentLabel
+                }
                 steps {
                   sh """
                     npm i -D @playwright/test
                     npx playwright install
-                    npx playwright test --shard --shard-count ${numInstances} --shard-index ${agentIndex} --workers ${numExecutorsPerAgent}
+                    npx playwright test --shard --shard-count ${numInstances} --shard-index ${agentIndex} --workers ${numExecutorsPerAgent} --headed
                   """
                 }
               }
