@@ -42,20 +42,27 @@ pipeline {
         }
     }
     stage('Run Tests') {
-        parallel {
+        steps {
             script {
-                for (int i = 1; i <= env.SHARD_COUNT.toInteger(); i++) {
-                    def shard = "${i}/${env.SHARD_COUNT}"
-                    stage("Shard ${shard}") {
+                def shardCount = env.SHARD_COUNT.toInteger()
+                def parallelStages = [:]
+                for (int i = 1; i <= shardCount; i++) {
+                    def shard = "${i}/${shardCount}"
+                    parallelStages["Shard ${shard}"] = {
                         agent {
                             label "kube"
                         }
-                        steps {
-                            sh "npm install"
-                            sh "npx playwright test -- --shard ${shard}"
+                        stages {
+                            stage('Run Tests') {
+                                steps {
+                                    sh "npm install"
+                                    sh "npx playwright test -- --shard ${shard}"
+                                }
+                            }
                         }
                     }
                 }
+                parallel parallelStages
             }
         }
     }
