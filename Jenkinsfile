@@ -48,7 +48,7 @@ pipeline {
                     def shard = "${i}/${env.SHARD_COUNT}"
                     stage("Shard ${shard}") {
                         agent {
-                            label "node${i}"
+                            label "kube"
                         }
                         steps {
                             sh "npm install"
