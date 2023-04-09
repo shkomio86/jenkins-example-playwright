@@ -43,18 +43,16 @@ pipeline {
     }
     stage('Run Tests') {
         parallel {
-            stage("miki") {
-                steps {
-                    for (int i = 1; i <= env.SHARD_COUNT.toInteger(); i++) {
-                        def shard = "${i}/${env.SHARD_COUNT}"
-                        stage("Shard ${shard}") {
-                            agent {
-                                label "node${i}"
-                            }
-                            steps {
-                                sh "npm install"
-                                sh "npx playwright test -- --shard ${shard}"
-                            }
+            script {
+                for (int i = 1; i <= env.SHARD_COUNT.toInteger(); i++) {
+                    def shard = "${i}/${env.SHARD_COUNT}"
+                    stage("Shard ${shard}") {
+                        agent {
+                            label "node${i}"
+                        }
+                        steps {
+                            sh "npm install"
+                            sh "npx playwright test -- --shard ${shard}"
                         }
                     }
                 }
