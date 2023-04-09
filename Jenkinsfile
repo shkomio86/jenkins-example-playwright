@@ -4,7 +4,7 @@ def numInstances = numAgents * numExecutorsPerAgent
 def labelPrefix = 'kube'
 
 pipeline {
-  agent none
+  agent any
   stages {
     stage('Run Playwright tests') {
       steps {
@@ -12,7 +12,7 @@ pipeline {
             def parallelStages = [:]
             for (int i = 1; i < numAgents + 1; i++) {
               def agentLabel = "${labelPrefix}${i}"
-              parallelStages["Shard ${shard}"] = {
+              parallelStages["Shard ${agentLabel}"] = {
                 node(agentLabel) {
                   docker.image('mcr.microsoft.com/playwright:v1.32.0-focal').inside {
                     sh '''
