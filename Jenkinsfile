@@ -4,7 +4,7 @@ pipeline {
     stage('Run Tests') {
       steps {
         script {
-          def shardCount = 4
+          def shardCount = 2
           parallelStages = [:]
           for (int i = 1; i <= shardCount; i++) {
             def shard = "${i}/${shardCount}"
@@ -19,7 +19,7 @@ pipeline {
                 sh '''
                   npm i -D @playwright/test
                   npx playwright install
-                  npx playwright test --workers=2 --headed --max-failures=1 --shard ${shard}
+                  npx playwright test -- --workers=2 --headed --max-failures=1 --shard ${shard}
                 '''
               }
             }
