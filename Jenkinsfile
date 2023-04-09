@@ -1,3 +1,5 @@
+import com.amazonaws.services.ec2.model.TerminateInstancesRequest
+
 pipeline {
   agent {
     docker {
