@@ -28,7 +28,4 @@ pipeline {
       }
     }
   }
-  agent {
-    label "${labelPrefix}*"
-  }
 }
