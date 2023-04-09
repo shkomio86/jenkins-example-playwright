@@ -4,8 +4,8 @@ pipeline {
   agent any
   stages {
       stage('run tests') {
+        def shardCount = 4
         parallel {
-          def shardCount = 4
           for (int i = 1; i <= shardCount; i++) {
             def shard = "${i}/${shardCount}"
             stage("Shard ${shard}")  {
