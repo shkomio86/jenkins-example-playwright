@@ -1,3 +1,5 @@
+#!groovy
+
 pipeline {
   agent {
     docker { 
@@ -30,26 +32,32 @@ pipeline {
         '''
       }
     }
-    stage('test2') {
-		parallel {
-			// Define the number of shards to use
-			def shardCount = 3
-			
-			// Run tests on each agent node
-			for (int i = 1; i <= shardCount; i++) {
-				def shard = "${i}/${shardCount}"
-				
-				stage("Shard ${shard}") {
-					agent {
-						label "kube"
-					}
-					steps {
-						sh "npm install"
-						sh "npx playwright test -- --shard ${shard}"
-					}
-				}
-			}
-		}
+    stage('Initialize') {
+        steps {
+            // Set the shard count
+            script {
+                def shardCount = 3
+                env.SHARD_COUNT = shardCount.toString()
+            }
+        }
+    }
+    stage('Run Tests') {
+        parallel {
+            // Run tests on each agent node
+            for (int i = 1; i <= env.SHARD_COUNT.toInteger(); i++) {
+                def shard = "${i}/${env.SHARD_COUNT}"
+
+                stage("Shard ${shard}") {
+                    agent {
+                        label "aws-node-${i}"
+                    }
+                    steps {
+                        sh "npm install"
+                        sh "npx playwright test -- --shard ${shard}"
+                    }
+                }
+            }
+        }
     }
   }
 }
