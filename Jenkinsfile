@@ -43,7 +43,7 @@ pipeline {
         }
       }
     }
-    stage('test1') {
+    stage('test2') {
       steps {
         sh '''
           npx playwright test
