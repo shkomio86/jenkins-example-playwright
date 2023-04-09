@@ -31,23 +31,25 @@ pipeline {
       }
     }
     stage('test2') {
-      parallel {
-        stage('Test shard 1') {
-            steps {
-                sh 'npx playwright test -- --shard 1/3'
-            }
-        }
-        stage('Test shard 2') {
-            steps {
-                sh 'npx playwright test -- --shard 2/3'
-            }
-        }
-        stage('Test shard 3') {
-            steps {
-                sh 'npx playwright test -- --shard 3/3'
-            }
-        }
-      }
+		parallel {
+			// Define the number of shards to use
+			def shardCount = 3
+			
+			// Run tests on each agent node
+			for (int i = 1; i <= shardCount; i++) {
+				def shard = "${i}/${shardCount}"
+				
+				stage("Shard ${shard}") {
+					agent {
+						label "kube"
+					}
+					steps {
+						sh "npm install"
+						sh "npx playwright test -- --shard ${shard}"
+					}
+				}
+			}
+		}
     }
   }
 }
