@@ -2,7 +2,10 @@ def numAgents = 2
 def numExecutorsPerAgent = 1
 def numInstances = numAgents * numExecutorsPerAgent
 def labelPrefix = 'kube'
-
+echo $numAgents
+echo numExecutorsPerAgent
+echo numInstances
+echo labelPrefix
 pipeline {
   agent any
   stages {
@@ -19,7 +22,7 @@ pipeline {
                     sh '''
                         npm i -D @playwright/test
                         npx playwright install
-                        npx playwright test -- --shard=${agentIndex}/${numInstances} --workers ${numAgents}
+                        npx playwright test -- --shard=$agentIndex/$numInstances --workers ${numAgents}
                     '''
                   }
                 }
