@@ -14,7 +14,7 @@ pipeline {
               def agentIndex = i
               parallelStages["Shard ${agentLabel}"] = {
                 node(agentLabel) {
-                  docker.image('mcr.microsoft.com/playwright:v1.30.0-focal').inside {
+                  docker.image('mcr.microsoft.com/playwright:v1.17.0-focal').inside {
                     sh '''
                         npm i -D @playwright/test
                         npx playwright install
