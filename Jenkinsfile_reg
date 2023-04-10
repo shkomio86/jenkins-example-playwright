@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh '''
           export PLAYWRIGHT_BROWSERS_PATH=/var/bla
-          mkdir -p $PLAYWRIGHT_BROWSERS_PATH
+          sudo mkdir -p $PLAYWRIGHT_BROWSERS_PATH
           npm i -D @playwright/test
           npx playwright install
         '''
