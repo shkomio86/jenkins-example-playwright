@@ -9,7 +9,7 @@ pipeline {
     stage('install playwright') {
       steps {
         sh '''
-          echo $USER
+          whoami
           rm -rf node_modules
           rm package-lock.json
           npm i
