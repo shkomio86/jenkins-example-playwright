@@ -2,7 +2,7 @@ pipeline {
   agent {
     docker {
       image 'mcr.microsoft.com/playwright:v1.25.0-focal'
-      label 'kube1'
+      label 'kube2'
     }
   }
   stages {
