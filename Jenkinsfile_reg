@@ -17,7 +17,7 @@ pipeline {
     }
     stage('test') {
       steps {
-        sh 'npm run playwright test'
+        sh 'npm run playwright'
       }
     }
   }

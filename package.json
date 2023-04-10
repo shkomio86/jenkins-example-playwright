@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "playwright": "playwright test"
+    "playwright": "playwright test --config=playwright.config.ts"
   },
   "repository": {
     "type": "git",
