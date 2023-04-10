@@ -3,7 +3,6 @@ pipeline {
     docker {
       image 'mcr.microsoft.com/playwright:v1.25.0-focal'
       label 'kube1'
-      args '-u centos'
     }
   }
   stages {
