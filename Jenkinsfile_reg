@@ -10,7 +10,10 @@ pipeline {
     stage('install playwright') {
       steps {
         sh '''
+          export PLAYWRIGHT_BROWSERS_PATH=/var/bla
+          mkdir -p $PLAYWRIGHT_BROWSERS_PATH
           npm i -D @playwright/test
+          npx playwright install
         '''
       }
     }
@@ -22,7 +25,8 @@ pipeline {
     stage('test') {
       steps {
         sh '''
-          PLAYWRIGHT_BROWSERS_PATH=/var/miki npx playwright test
+          npx playwright test --list
+          npx playwright test
         '''
       }
       post {
