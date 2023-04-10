@@ -3,7 +3,7 @@ pipeline {
     docker {
       image 'mcr.microsoft.com/playwright:v1.17.2-focal'
       label 'aws2'
-      args '--user centos'
+      args '-p 3000:3000'
     }
   }
   stages {
