@@ -24,7 +24,7 @@ pipeline {
     stage('test') {
       steps {
         sh '''
-          npm run playwright
+          sudo npx playwright test
         '''
       }
     }
