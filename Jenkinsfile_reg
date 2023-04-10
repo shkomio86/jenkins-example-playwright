@@ -11,6 +11,7 @@ pipeline {
       steps {
         sh '''
           npm i -D @playwright/test
+          export PLAYWRIGHT_CACHE_PATH=/apps
           npx playwright install || true
         '''
       }
