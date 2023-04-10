@@ -2,16 +2,13 @@ pipeline {
   agent {
     docker {
       image 'mcr.microsoft.com/playwright:v1.17.2-focal'
-      label 'aws2'
+      label 'aws1'
     }
   }
   stages {
     stage('install playwright') {
       steps {
         sh '''
-          USER root
-          export PLAYWRIGHT_BROWSERS_PATH=/var/bla
-          mkdir -p $PLAYWRIGHT_BROWSERS_PATH
           npm i -D @playwright/test
           npx playwright install
         '''
