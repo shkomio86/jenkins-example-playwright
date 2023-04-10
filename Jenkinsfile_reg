@@ -1,32 +1,20 @@
 pipeline {
-  agent {
-    docker {
-      image 'mcr.microsoft.com/playwright:v1.25.0-focal'
-      label 'aws2'
-    }
-  }
+  agent any
+
   stages {
-    stage('check versions') {
+    stage('run tests') {
       steps {
-        sh '''
-          node --version || true
-          npm --version || true
-        '''
-      }
-    }
-    stage('install playwright') {
-      steps {
-        sh '''
-          npm i -D @playwright/test
-          npx playwright install
-        '''
-      }
-    }
-    stage('test') {
-      steps {
-        sh '''
-          npx playwright test
-        '''
+        script {
+          node('aws2') {
+            docker.image('mcr.microsoft.com/playwright:v1.32.0-focal').inside {
+              sh '''
+                  npm i -D @playwright/test
+                  npx playwright install
+                  npx playwright test
+              '''
+            }
+          }
+        }
       }
     }
   }
