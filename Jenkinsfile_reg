@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'mcr.microsoft.com/playwright:v1.17.2-focal'
+      image 'mcr.microsoft.com/playwright:v1.32.0-focal'
       label 'aws1'
     }
   }
@@ -9,6 +9,8 @@ pipeline {
     stage('install playwright') {
       steps {
         sh '''
+          rm -rf node_modules
+          rm package-lock.json
           npm i
         '''
       }
