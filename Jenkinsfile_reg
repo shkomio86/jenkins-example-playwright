@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh '''
           npm i -D @playwright/test
-          PLAYWRIGHT_BROWSERS_PATH=/home npx playwright install
+          PLAYWRIGHT_BROWSERS_PATH=/var/miki npx playwright install
         '''
       }
     }
